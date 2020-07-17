@@ -1,35 +1,51 @@
-import React, {useState, useReducer} from 'react'
+import React, {useState} from 'react'
+import { connect } from "react-redux"; 
 
-export default function NewSmurfForm(){
-    const {input, setInput} = useState('')
+import {postSmurf} from '../store/actions/indexAction'
 
-    const handleChanges = e =>{
-        setInput(e.target.value)
+
+function NewSmurfForm(props){
+    const intitialValues = {name: '', age: '', height: ''}
+    const [newSmurf, setNewSmurf] = useState(intitialValues)
+
+    const handleChanges = evt =>{
+        const{name, value} = evt.target;
+        setNewSmurf({
+            ...newSmurf,
+            [name]: value,
+          })
       };
 
+
+    const submit = e =>{
+        e.preventDefault()
+        props.postSmurf(newSmurf)
+        setNewSmurf(intitialValues)
+
+    }
     return (
         <>
         <h2>Register New Smurf</h2>
-        <form>
-            <label for='name'>Name</label>
+        <form onSubmit={submit}>
+            <label htmlFor='name'>Name</label>
             <input
             type='text'
             name='name'
-            value={input}
+            value={newSmurf.name}
             onChange={handleChanges}
             />
-            <label for='age'>Age</label>
+            <label htmlFor='age'>Age</label>
             <input
             type='text'
             name='age'
-            value={input}
+            value={newSmurf.age}
             onChange={handleChanges}
             />
-            <label for='height'>Height</label>
+            <label htmlFor='height'>Height</label>
             <input
             type='text'
             name='height'
-            value={input}
+            value={newSmurf.height}
             onChange={handleChanges}
             />
             <button>Register</button>
@@ -37,3 +53,9 @@ export default function NewSmurfForm(){
         </>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+      village: state.village,
+    }}
+export default connect(mapStateToProps,{postSmurf})(NewSmurfForm)

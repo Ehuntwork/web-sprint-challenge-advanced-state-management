@@ -1,16 +1,17 @@
-import React, { Component, useEffect } from "react";
+import React, { Component} from "react";
 import "./App.css";
 import { connect } from "react-redux"; 
 
-import {fetchMissions} from '../store/actions/indexAction'
+import {fetchSmurfs} from '../store/actions/indexAction'
 
 import NewSmurfForm from './newSmurfForm'
 import ListSmurf from './listSmurfs'
 
 class App extends Component {
   componentDidMount(){
-    this.props.fetchMissions()
+    this.props.fetchSmurfs()
   }
+   
 
   render() {
 
@@ -27,7 +28,7 @@ class App extends Component {
 
         {this.props.village.length > 0 &&(
           <div className='App Conetns'>
-            <NewSmurfForm/>
+            <NewSmurfForm />
             <ListSmurf village={this.props.village}/>
           </div>
           )
@@ -39,10 +40,9 @@ class App extends Component {
 const mapStateToProps = state => {
   console.log(state)
   return {
-    name: state.name,
     isLoading: state.isLoading,
     village: state.village,
     error: state.error
   };
 };
-export default connect(mapStateToProps, {fetchMissions})(App);
+export default connect(mapStateToProps, {fetchSmurfs})(App);
